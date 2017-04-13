@@ -77,7 +77,7 @@ while not done:
 
             print(str(amount) + ' of ' + item)
     elif cmd == 'use ' + inventory[item].name :
-        print(inventory[item].name + 'consumed.')
+        print(inventory[item].name + ' consumed.')
 
         inventory[item].count -= 1
     else:
