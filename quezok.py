@@ -31,13 +31,21 @@ class NPC:
         """Retort the player's argument."""
         self.brain.retort()
 
+class Potion:
+
+    def __init__(self, name, count):
+        self.name = name
+        self.count = count
+
+    def use(self):
+        print 'You have consumed' + self.name
+
 # Set up the world.
 npc = NPC("Jauld", Brain(response="What's up?", retortance="I disagree!"))
 revealed = False
 done = False
 inventory = {
-    'transformation potion': 1,
-    'detransformation potion': 1
+    'transformation potion': Potion(name="Transformation Potion", count=1),
 }
 
 while not done:
@@ -65,9 +73,13 @@ while not done:
     elif cmd == 'inventory' or cmd == 'i':
         # List the contents of the player's inventory.
         for item in inventory:
-            amount = inventory[item]
+            amount = inventory[item].count
 
             print(str(amount) + ' of ' + item)
+    elif cmd == 'use ' + inventory[item].name :
+        print(inventory[item].name + 'consumed.')
+
+        inventory[item].count -= 1
     else:
         # The user gave an unknown command.
         print('Huh?')
