@@ -38,7 +38,8 @@ class Potion:
         self.count = count
 
     def use(self):
-        print 'You have consumed' + self.name
+        print 'You have consumed ' + self.name
+        self.count -= 1
 
 # Set up the world.
 npc = NPC("Jauld", Brain(response="What's up?", retortance="I disagree!"))
@@ -76,10 +77,16 @@ while not done:
             amount = inventory[item].count
 
             print(str(amount) + ' of ' + item)
-    elif cmd == 'use ' + inventory[item].name :
-        print(inventory[item].name + ' consumed.')
-
-        inventory[item].count -= 1
     else:
-        # The user gave an unknown command.
-        print('Huh?')
+        itemused = False
+
+        # If the user types "use <item name>", use that item.
+        for item in inventory:
+            if cmd == 'use ' + item:
+                inventory[item].use()
+                itemused = True
+                break
+
+        # If the user did not use an item, the command is unknown.
+        if not itemused:
+            print('Huh?')
