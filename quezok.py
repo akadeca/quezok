@@ -79,8 +79,8 @@ class Potion:
             print('You have consumed ' + self.name)
             self.count -= 1
 
-# Set up our NPC.
-npc = NPC('Stin', DecisionBrain({
+# Set up our NPCs.
+stin = NPC('Stin', DecisionBrain({
     'intro': {
         'text': "Stin tries to explain himself.  It wasn't his fault!",
         'respond': 'glad',
@@ -98,17 +98,35 @@ npc = NPC('Stin', DecisionBrain({
     }
 }))
 
+jauld = NPC('Jauld', DecisionBrain({
+    'intro': {
+        'text': "Jauld waves.",
+        'respond': 'intro',
+        'retort': 'bicker'
+    },
+    'bicker': {
+        'text': "Jauld furrows his eyebrows at you.",
+        'respond': 'intro',
+        'retort': 'bicker'
+    }
+}))
+
 # Set up the world.
 revealed = False
 done = False
 inventory = {
     'transformation potion': Potion(name="Transformation Potion", count=1),
 }
+zone = {'description': 'The pier is long and unforgiving.',
+        'npc': stin}
+otherzone = {'description': 'Under this lighthouse the stars are gone.',
+             'npc': jauld}
 
 while not done:
     # Show what is around the user if it has not yet been revealed.
     if not revealed:
-        print('You see ' + npc.name + ' here.')
+        print(zone['description'])
+        print('You see ' + zone['npc'].name + ' here.')
         revealed = True
 
     # Get the user's command as a lowercase string.
@@ -117,10 +135,10 @@ while not done:
     # Perform the command.
     if cmd == 'talk':
         # Talk to an NPC in the current zone.
-        npc.respond()
+        zone['npc'].respond()
     elif cmd == 'argue':
         # Argue with an NPC in the current zone.
-        npc.retort()
+        zone['npc'].retort()
     elif cmd == 'look' or cmd == 'l':
         # Make the current zone show itself again.
         revealed = False
@@ -133,6 +151,12 @@ while not done:
             amount = inventory[item].count
 
             print(str(amount) + ' of ' + item)
+    elif cmd == 'go' or cmd == 'g':
+        # Switch zones.
+        tmp = zone
+        zone = otherzone
+        otherzone = tmp
+        revealed = False
     else:
         itemused = False
 
