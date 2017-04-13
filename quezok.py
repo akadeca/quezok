@@ -20,29 +20,21 @@ class DecisionBrain(Brain):
     """A DecisionBrain handles tree-based dialogues with NPCs."""
 
     def __init__(self, states):
-        """Create a DecisionBrain with the given states.
+        """Create a DecisionBrain with the given states dictionary.
+
+        The states dictionary should have state names as keys
+        and states themselves as values.
+
+        A state in itself is a dictionary with the keys 'text',
+        'respond', and 'retort' which are, respectively, the message
+        text to be printed when the state is reached, the name of
+        the state to change to if the user talks, and the state to
+        change to if the user argues.  If 'respond' is None, talking
+        will not change the state.  If 'retort' is None, arguing will
+        not change the state.
 
         Dialogue always starts on the 'intro' state.
-
-        The states dictionary should have the following form:
-
-        {
-            'intro': {
-                'text': 'Jauld stammers at you.',
-                'respond': 'slowly',
-                'retort': 'fearful'
-            },
-            'slowly': {
-                'text': 'Jauld gathers his senses and gives his tale.',
-                'respond': None,
-                'retort': None
-            },
-            'slowly': {
-                'text': 'Jauld disappears into his cloak.',
-                'respond': None,
-                'retort': None
-            }
-        }"""
+        """
         self.states = states
         self.state = {'text': '', 'respond': 'intro', 'retort': 'intro'}
 
