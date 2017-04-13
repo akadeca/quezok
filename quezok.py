@@ -73,8 +73,11 @@ class Potion:
         self.count = count
 
     def use(self):
-        print 'You have consumed ' + self.name
-        self.count -= 1
+        if self.count <= 0:
+            print("You don't have any more of those.")
+        else:
+            print('You have consumed ' + self.name)
+            self.count -= 1
 
 # Set up our NPC.
 npc = NPC('Stin', DecisionBrain({
