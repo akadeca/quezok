@@ -1,22 +1,7 @@
 #! /usr/bin/env python
 # quezok.py - a text-based game
 
-class Brain:
-    """A Brain handles how an NPC responds to the player character."""
-
-    def __init__(self, response='', retortance=''):
-        self.response = response
-        self.retortance = retortance
-
-    def respond(self):
-        """Respond to the player's talking."""
-        print(self.response)
-
-    def retort(self):
-        """Retort the player's argument."""
-        print(self.retortance)
-
-class DecisionBrain(Brain):
+class DecisionBrain:
     """A DecisionBrain handles tree-based dialogues with NPCs."""
 
     def __init__(self, states):
@@ -64,6 +49,11 @@ class NPC:
     """An NPC is a person or creature existing in the world."""
 
     def __init__(self, name, brain):
+        """Create a new NPC with the given name and brain.
+
+        The brain can be any object, but it must have two methods:
+        .respond() and .retort().
+        """
         self.name = name
         self.brain = brain
 
