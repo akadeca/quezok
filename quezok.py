@@ -141,7 +141,7 @@ def untransform():
 
 inventory = {
     'dusty flute':
-      Item(name="Dusty Flute", count=1, verb='drink', act=transform),
+      Item(name="Dusty Flute", count=1, verb='play', act=transform),
     'origin relic':
       Item(name="Origin Relic", count=1, verb='honor', act=untransform)
 }
