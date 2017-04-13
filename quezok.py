@@ -16,6 +16,58 @@ class Brain:
         """Retort the player's argument."""
         print(self.retortance)
 
+class DecisionBrain(Brain):
+    """A DecisionBrain handles tree-based dialogues with NPCs."""
+
+    def __init__(self, states):
+        """Create a DecisionBrain with the given states.
+
+        Dialogue always starts on the 'intro' state.
+
+        The states dictionary should have the following form:
+
+        {
+            'intro': {
+                'text': 'Jauld stammers at you.',
+                'respond': 'slowly',
+                'retort': 'fearful'
+            },
+            'slowly': {
+                'text': 'Jauld gathers his senses and gives his tale.',
+                'respond': None,
+                'retort': None
+            },
+            'slowly': {
+                'text': 'Jauld disappears into his cloak.',
+                'respond': None,
+                'retort': None
+            }
+        }"""
+        self.states = states
+        self.state = {'text': '', 'respond': 'intro', 'retort': 'intro'}
+
+    def respond(self):
+        """Respond to the player's talking."""
+        if self.state is None or self.state['respond'] is None:
+            print('No one is willing to talk.')
+            return
+
+        self.state = self.states[self.state['respond']]
+
+        if self.state is not None:
+            print(self.state['text'])
+
+    def retort(self):
+        """Retort the player's argument."""
+        if self.state is None or self.state['retort'] is None:
+            print('No one is willing to argue.')
+            return
+
+        self.state = self.states[self.state['retort']]
+
+        if self.state is not None:
+            print(self.state['text'])
+
 class NPC:
     """An NPC is a person or creature existing in the world."""
 
@@ -32,6 +84,7 @@ class NPC:
         self.brain.retort()
 
 class Potion:
+    """A Potion is an item which can be consumed."""
 
     def __init__(self, name, count):
         self.name = name
@@ -41,8 +94,26 @@ class Potion:
         print 'You have consumed ' + self.name
         self.count -= 1
 
+# Set up our NPC.
+npc = NPC('Stin', DecisionBrain({
+    'intro': {
+        'text': "Stin tries to explain himself.  It wasn't his fault!",
+        'respond': 'glad',
+        'retort': 'sad'
+    },
+    'glad': {
+        'text': "Stin is happy that you don't blame him.",
+        'respond': None,
+        'retort': None
+    },
+    'sad': {
+        'text': "Stin runs away with crocodile tears in his eyes.",
+        'respond': None,
+        'retort': None,
+    }
+}))
+
 # Set up the world.
-npc = NPC("Jauld", Brain(response="What's up?", retortance="I disagree!"))
 revealed = False
 done = False
 inventory = {
