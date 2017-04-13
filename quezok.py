@@ -68,15 +68,16 @@ class NPC:
 class Potion:
     """A Potion is an item which can be consumed."""
 
-    def __init__(self, name, count):
+    def __init__(self, name, count, verb):
         self.name = name
         self.count = count
+        self.verb = verb
 
     def use(self):
         if self.count <= 0:
             print("You don't have any more of those.")
         else:
-            print('You have consumed ' + self.name)
+            print('You ' + self.verb + ' the ' + self.name + '.')
             self.count -= 1
 
 # Set up our NPCs.
@@ -115,7 +116,10 @@ jauld = NPC('Jauld', DecisionBrain({
 revealed = False
 done = False
 inventory = {
-    'transformation potion': Potion(name="Transformation Potion", count=1),
+    'transformation potion':
+      Potion(name="Transformation Potion", count=1, verb='drink'),
+    'origin relic':
+      Potion(name="Origin Relic", count=1, verb='honor')
 }
 zone = {'description': 'The pier is long and unforgiving.',
         'npc': stin}
