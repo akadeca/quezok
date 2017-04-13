@@ -65,19 +65,21 @@ class NPC:
         """Retort the player's argument."""
         self.brain.retort()
 
-class Potion:
-    """A Potion is an item which can be consumed."""
+class Item:
+    """A Item is an item which can be consumed."""
 
-    def __init__(self, name, count, verb):
+    def __init__(self, name, count, verb, act):
         self.name = name
         self.count = count
         self.verb = verb
+        self.act = act
 
     def use(self):
         if self.count <= 0:
             print("You don't have any more of those.")
         else:
             print('You ' + self.verb + ' the ' + self.name + '.')
+            self.act()
             self.count -= 1
 
 # Set up our NPCs.
@@ -115,12 +117,35 @@ jauld = NPC('Jauld', DecisionBrain({
 # Set up the world.
 revealed = False
 done = False
+transformed = False
+
+def transform():
+    """Transform the player into a monster."""
+    global transformed
+
+    if transformed:
+        print('Nothing happens.')
+    else:
+        print('You become something monstrous.')
+        transformed = True
+
+def untransform():
+    """Transform the player into a human."""
+    global transformed
+
+    if transformed:
+        print('You become your old self.')
+        transformed = False
+    else:
+        print('Nothing happens.')
+
 inventory = {
-    'transformation potion':
-      Potion(name="Transformation Potion", count=1, verb='drink'),
+    'dusty flute':
+      Item(name="Dusty Flute", count=1, verb='drink', act=transform),
     'origin relic':
-      Potion(name="Origin Relic", count=1, verb='honor')
+      Item(name="Origin Relic", count=1, verb='honor', act=untransform)
 }
+
 zone = {'description': 'The pier is long and unforgiving.',
         'npc': stin}
 otherzone = {'description': 'Under this lighthouse the stars are gone.',
