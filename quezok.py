@@ -35,6 +35,10 @@ class NPC:
 npc = NPC("Jauld", Brain(response="What's up?", retortance="I disagree!"))
 revealed = False
 done = False
+inventory = {
+    'transformation potion': 1,
+    'detransformation potion': 1
+}
 
 while not done:
     # Show what is around the user if it has not yet been revealed.
@@ -58,6 +62,12 @@ while not done:
     elif cmd == 'quit' or cmd == 'q':
         # Quit the game.
         done = True
+    elif cmd == 'inventory' or cmd == 'i':
+        # List the contents of the player's inventory.
+        for item in inventory:
+            amount = inventory[item]
+
+            print(str(amount) + ' of ' + item)
     else:
         # The user gave an unknown command.
         print('Huh?')
