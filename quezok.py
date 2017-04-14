@@ -1,86 +1,8 @@
 #! /usr/bin/env python
 # quezok.py - a text-based game
-
-class DecisionBrain:
-    """A DecisionBrain handles tree-based dialogues with NPCs."""
-
-    def __init__(self, states):
-        """Create a DecisionBrain with the given states dictionary.
-
-        The states dictionary should have state names as keys
-        and states themselves as values.
-
-        A state in itself is a dictionary with the keys 'text',
-        'respond', and 'retort' which are, respectively, the message
-        text to be printed when the state is reached, the name of
-        the state to change to if the user talks, and the state to
-        change to if the user argues.  If 'respond' is None, talking
-        will not change the state.  If 'retort' is None, arguing will
-        not change the state.
-
-        Dialogue always starts on the 'intro' state.
-        """
-        self.states = states
-        self.state = {'text': '', 'respond': 'intro', 'retort': 'intro'}
-
-    def respond(self):
-        """Respond to the player's talking."""
-        if self.state is None or self.state['respond'] is None:
-            print('No one is willing to talk.')
-            return
-
-        self.state = self.states[self.state['respond']]
-
-        if self.state is not None:
-            print(self.state['text'])
-
-    def retort(self):
-        """Retort the player's argument."""
-        if self.state is None or self.state['retort'] is None:
-            print('No one is willing to argue.')
-            return
-
-        self.state = self.states[self.state['retort']]
-
-        if self.state is not None:
-            print(self.state['text'])
-
-class NPC:
-    """An NPC is a person or creature existing in the world."""
-
-    def __init__(self, name, brain):
-        """Create a new NPC with the given name and brain.
-
-        The brain can be any object, but it must have two methods:
-        .respond() and .retort().
-        """
-        self.name = name
-        self.brain = brain
-
-    def respond(self):
-        """Respond to the player's talking."""
-        self.brain.respond()
-
-    def retort(self):
-        """Retort the player's argument."""
-        self.brain.retort()
-
-class Item:
-    """A Item is an item which can be consumed."""
-
-    def __init__(self, name, count, verb, act):
-        self.name = name
-        self.count = count
-        self.verb = verb
-        self.act = act
-
-    def use(self):
-        if self.count <= 0:
-            print("You don't have any more of those.")
-        else:
-            print('You ' + self.verb + ' the ' + self.name + '.')
-            self.act()
-            self.count -= 1
+from brain import DecisionBrain
+from npc import NPC
+from item import Item
 
 # Set up our NPCs.
 stin = NPC('Stin', DecisionBrain({
