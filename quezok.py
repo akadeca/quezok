@@ -3,6 +3,7 @@
 from brain import DecisionBrain
 from npc import NPC
 from item import Item
+from player import Player
 
 # Set up our NPCs.
 stin = NPC('Stin', DecisionBrain({
@@ -40,32 +41,13 @@ jauld = NPC('Jauld', DecisionBrain({
 revealed = False
 done = False
 transformed = False
-
-def transform():
-    """Transform the player into a monster."""
-    global transformed
-
-    if transformed:
-        print('Nothing happens.')
-    else:
-        print('You become something monstrous.')
-        transformed = True
-
-def untransform():
-    """Transform the player into a human."""
-    global transformed
-
-    if transformed:
-        print('You become your old self.')
-        transformed = False
-    else:
-        print('Nothing happens.')
+player = Player()
 
 inventory = {
     'dusty flute':
-      Item(name="Dusty Flute", count=1, verb='play', act=transform),
+      Item(name="Dusty Flute", count=1, verb='play', act=player.transform),
     'origin relic':
-      Item(name="Origin Relic", count=1, verb='honor', act=untransform)
+      Item(name="Origin Relic", count=1, verb='honor', act=player.untransform)
 }
 
 zone = {'description': 'The pier is long and unforgiving.',
